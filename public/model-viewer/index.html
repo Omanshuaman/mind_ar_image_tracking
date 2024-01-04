@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&lt;ar-button&gt;</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@leoncvlt/ar-button/styles.css" />
+    <style>
+      td:first-child {
+        width: 33%;
+        font-family: monospace;
+      }
+      .demo {
+        position: relative;
+      }
+      .demo > ar-button {
+        position: absolute;
+        right: 2rem;
+        bottom: 2rem;
+      }
+      .demo > img {
+        border-radius: 0.5rem;
+      }
+
+      ar-button:not([ar="unsupported"]) .unsupported {
+        display: none;
+      }
+      ar-button[ar="unsupported"] {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      ar-button[ar="unsupported"] .prompt {
+        display: none;
+      }
+      body {
+        margin-bottom: 10rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo">
+      <img
+        src="https://res.cloudinary.com/dd3c4j1sm/image/upload/v1704371613/Screenshot_2024-01-04_180251_nwpg7q.png" />
+      <ar-button
+        id="ar-button"
+        src="https://res.cloudinary.com/dd3c4j1sm/image/upload/v1704371477/groot_dancing_dpkibq.glb"
+        ios-src="https://github.com/leoncvlt/ar-button/raw/master/assets/Astronaut.usdz"
+        link="https://www.nasa.gov/"
+        title="A 3D model of an astronaut"
+        checkout-title="A 3D model of an astronaut"
+        checkout-subtitle="Doesn't feel like a giant. Probably feels very"
+        price="very small."
+        call-to-action="Go to space"
+        show-if-unsupported>
+        <span class="prompt">See in <b>Augmented Reality</b></span>
+        <span class="unsupported">Your device does not support AR</span>
+      </ar-button>
+    </div>
+
+    <script type="module" src="https://unpkg.com/@leoncvlt/ar-button"></script>
+    <script>
+      const arButton = document.querySelector("ar-button");
+      arButton.addEventListener("quick-look-button-tapped", () => {
+        window.location.href = "https://https://www.nasa.gov/";
+      });
+    </script>
+
+    <style>
+      .github-corner:hover .octo-arm {
+        animation: octocat-wave 560ms ease-in-out;
+      }
+      @keyframes octocat-wave {
+        0%,
+        100% {
+          transform: rotate(0);
+        }
+        20%,
+        60% {
+          transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+          transform: rotate(10deg);
+        }
+      }
+      @media (max-width: 500px) {
+        .github-corner:hover .octo-arm {
+          animation: none;
+        }
+        .github-corner .octo-arm {
+          animation: octocat-wave 560ms ease-in-out;
+        }
+      }
+    </style>
+  </body>
+</html>
