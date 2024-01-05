@@ -92,26 +92,29 @@ function onTouch(touchPos) {
   if (intersects.length > 0 && intersects[0].object == floor) {
     // Load a 3D model and add it to the scene over touched position
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load("bear.glb", (gltf) => {
-      const model = gltf.scene;
-      const animations = gltf.animations;
-      model.position.set(
-        intersects[0].point.x,
-        intersects[0].point.y,
-        intersects[0].point.z
-      );
-      // Model looking to the camera on Y axis
-      model.rotation.y = Math.atan2(
-        camera.position.x - model.position.x,
-        camera.position.z - model.position.z
-      );
-      scene.add(model);
-      // Play model animation
-      const mixer = new THREE.AnimationMixer(model);
-      const action = mixer.clipAction(animations[0]);
-      action.play();
-      animationMixers.push(mixer);
-    });
+    gltfLoader.load(
+      "https://res.cloudinary.com/dd3c4j1sm/image/upload/v1704371477/groot_dancing_dpkibq.glb",
+      (gltf) => {
+        const model = gltf.scene;
+        const animations = gltf.animations;
+        model.position.set(
+          intersects[0].point.x,
+          intersects[0].point.y,
+          intersects[0].point.z
+        );
+        // Model looking to the camera on Y axis
+        model.rotation.y = Math.atan2(
+          camera.position.x - model.position.x,
+          camera.position.z - model.position.z
+        );
+        scene.add(model);
+        // Play model animation
+        const mixer = new THREE.AnimationMixer(model);
+        const action = mixer.clipAction(animations[0]);
+        action.play();
+        animationMixers.push(mixer);
+      }
+    );
 
     if (!started) {
       // Start tracking on first touch
@@ -123,9 +126,7 @@ function onTouch(touchPos) {
 
 // ====== Onirix SDK ======
 
-const OX = new OnirixSDK(
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUyMDIsInByb2plY3RJZCI6MTQ0MjgsInJvbGUiOjMsImlhdCI6MTYxNjc1ODY5NX0.8F5eAPcBGaHzSSLuQAEgpdja9aEZ6Ca_Ll9wg84Rp5k"
-);
+const OX = new OnirixSDK("");
 
 const config = {
   mode: OnirixSDK.TrackingMode.Surface,
