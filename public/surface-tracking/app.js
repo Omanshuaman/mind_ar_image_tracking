@@ -97,6 +97,8 @@ function onTouch(touchPos) {
       (gltf) => {
         const model = gltf.scene;
         const animations = gltf.animations;
+        model.scale.set(0.1, 0.1, 0.1);
+
         model.position.set(
           intersects[0].point.x,
           intersects[0].point.y,
