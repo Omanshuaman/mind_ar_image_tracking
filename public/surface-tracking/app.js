@@ -6,6 +6,8 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/l
 import { UnrealBloomPass } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { EffectComposer } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/postprocessing/RenderPass.js";
+
+import { GlitchPass } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/postprocessing/GlitchPass.js";
 // ====== ThreeJS ======
 const params = {
   threshold: 0,
@@ -14,17 +16,43 @@ const params = {
   exposure: 1,
 };
 
-var renderer, scene, camera, floor, raycaster, clock, animationMixers, started;
+var renderer,
+  scene,
+  camera,
+  floor,
+  raycaster,
+  clock,
+  animationMixers,
+  started,
+  width,
+  height;
+
 var composer;
-function setupPostprocessing() {
+function setupPostprocessing(rendererCanvas) {
+  const width = rendererCanvas.width;
+  const height = rendererCanvas.height;
+  console.log(width);
+  console.log(height);
+
   const renderPass = new RenderPass(scene, camera);
+
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(width, height),
+    1.5,
+    0.4,
+    0.85
+  );
+  bloomPass.threshold = params.threshold;
+  bloomPass.strength = params.strength;
+  bloomPass.radius = params.radius;
 
   composer = new EffectComposer(renderer);
   composer.addPass(renderPass);
+  composer.addPass(bloomPass);
 }
 function setupRenderer(rendererCanvas) {
-  const width = rendererCanvas.width;
-  const height = rendererCanvas.height;
+  width = rendererCanvas.width;
+  height = rendererCanvas.height;
 
   // Initialize renderer with rendererCanvas provided by Onirix SDK
   renderer = new THREE.WebGLRenderer({ canvas: rendererCanvas, alpha: true });
@@ -123,6 +151,7 @@ function onTouch(touchPos) {
           camera.position.x - model.position.x,
           camera.position.z - model.position.z
         );
+
         scene.add(model);
         // Play model animation
         const mixer = new THREE.AnimationMixer(model);
@@ -154,7 +183,7 @@ OX.init(config)
 
     // Setup ThreeJS renderer
     setupRenderer(rendererCanvas);
-    setupPostprocessing();
+    setupPostprocessing(rendererCanvas);
 
     // All loaded, so hide loading screen
     document.getElementById("loading-screen").style.display = "none";
