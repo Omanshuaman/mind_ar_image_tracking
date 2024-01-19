@@ -3,11 +3,25 @@
 import OnirixSDK from "./onitrix.js";
 import * as THREE from "https://cdn.skypack.dev/three@0.127.0";
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/loaders/GLTFLoader.js";
-
+import { UnrealBloomPass } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { EffectComposer } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "https://cdn.skypack.dev/three@0.127.0/examples/jsm/postprocessing/RenderPass.js";
 // ====== ThreeJS ======
+const params = {
+  threshold: 0,
+  strength: 1,
+  radius: 0,
+  exposure: 1,
+};
 
 var renderer, scene, camera, floor, raycaster, clock, animationMixers, started;
+var composer;
+function setupPostprocessing() {
+  const renderPass = new RenderPass(scene, camera);
 
+  composer = new EffectComposer(renderer);
+  composer.addPass(renderPass);
+}
 function setupRenderer(rendererCanvas) {
   const width = rendererCanvas.width;
   const height = rendererCanvas.height;
@@ -81,7 +95,7 @@ function onResize() {
 
 function render() {
   // Just render the scene
-  renderer.render(scene, camera);
+  composer.render();
 }
 
 function onTouch(touchPos) {
@@ -140,6 +154,7 @@ OX.init(config)
 
     // Setup ThreeJS renderer
     setupRenderer(rendererCanvas);
+    setupPostprocessing();
 
     // All loaded, so hide loading screen
     document.getElementById("loading-screen").style.display = "none";
