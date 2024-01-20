@@ -40,8 +40,7 @@ function setupRenderer(rendererCanvas) {
     new BABYLON.Vector3(0, 1, 0),
     scene
   );
-  glowLayer = new BABYLON.GlowLayer("glow", scene);
-  glowLayer.intensity = 1.5;
+
   background = new BABYLON.Layer("back", null, scene);
 
   // Add transparent floor for model placement using raycasting
@@ -53,6 +52,9 @@ function setupRenderer(rendererCanvas) {
   // Rotate floor to be horizontal and place it 1 meter below camera
   floor.rotation.x = Math.PI / 2;
   floor.position.y = -1;
+  glowLayer = new BABYLON.GlowLayer("glow", scene);
+  glowLayer.intensity = 1.5;
+  glowLayer.isEnabled = false;
 }
 
 function updatePose(pose) {
@@ -165,6 +167,11 @@ OX.init(config)
   .then((rendererCanvas) => {
     // Setup BabylonJS renderer
     setupRenderer(rendererCanvas);
+    const enableGlowButton = document.getElementById("enableGlowButton");
+    enableGlowButton.addEventListener("click", function () {
+      // Toggle the glow layer's enabled state
+      glowLayer.isEnabled = !glowLayer.isEnabled;
+    });
 
     // All loaded, so hide loading screen
     document.getElementById("loading-screen").style.display = "none";
