@@ -3,6 +3,7 @@ import "./style.css";
 import * as BABYLON from "@babylonjs/core";
 import "@babylonjs/loaders/glTF";
 import { TrackingPrompt } from "./tracking-prompt.js";
+import "./v1.js";
 
 var engine,
   scene,

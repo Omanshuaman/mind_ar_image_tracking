@@ -1,4 +1,5 @@
 import * as BABYLON from "@babylonjs/core";
+import "./v1.js";
 
 export class TrackingPrompt {
   planeFound = false;

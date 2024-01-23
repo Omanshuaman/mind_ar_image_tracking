@@ -1,4 +1,5 @@
 import QRCode from "qrcode";
+import "./v1.js";
 
 async function generateQRCode(text) {
   //apply to #qr-code
